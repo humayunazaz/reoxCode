@@ -8,7 +8,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { RoleService } from '../../services/role.service';
+import { RoleService } from './role.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +21,6 @@ export class RoleGuard implements CanActivate {
     return true;
     // TODO layout the guard for pages, base on the role.
 
-    //   this.role.IsSONA() &&
-    //   (url.indexOf('sona') > -1 || url.indexOf('company') > -1)
-    // ) {
     //   return true;
     // } else if (
     //   this.role.IsProcessors() &&
