@@ -6,16 +6,18 @@ import { Menu } from '../menu.model';
   selector: 'app-horizontal-menu',
   templateUrl: './horizontal-menu.component.html',
   styleUrls: ['./horizontal-menu.component.scss'],
-  providers: [ MenuService ]
+  providers: [MenuService],
 })
 export class HorizontalMenuComponent implements OnInit {
   @Input('menuParentId') menuParentId;
   public menuItems: Array<Menu>;
-  constructor(public menuService:MenuService) { }
+  constructor(public menuService: MenuService) {}
 
   ngOnInit() {
-    this.menuItems = this.menuService.getHorizontalMenuItems();
-    this.menuItems = this.menuItems.filter(item => item.parentId == this.menuParentId); 
+    this.menuItems = this.menuService.getCustomMenuItems();
+    this.menuItems = this.menuItems.filter(
+      (item) => item.parentId == this.menuParentId
+    );
+    console.log(this.menuItems);
   }
-
 }

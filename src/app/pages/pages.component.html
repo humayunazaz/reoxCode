@@ -1,24 +1,4 @@
 <mat-sidenav-container>
-  <!-- <mat-sidenav
-    [opened]="false"
-    mode="over"
-    #sidenav
-    class="sidenav mat-elevation-z6"
-  >
-    <button
-      mat-icon-button
-    >
-    </button>
-
-    <div class="divider"></div>
-    <app-social-icons
-      [iconSize]="'xlg'"
-      [iconColor]="'primary'"
-      fxLayout="row"
-      fxLayoutAlign="center center"
-    ></app-social-icons>
-  </mat-sidenav> -->
-
   <mat-sidenav-content
     class="page-wrapper"
     fxLayout="column"
@@ -34,10 +14,6 @@
         *ngIf="settings.toolbar == 1"
         (onMenuIconClick)="sidenav.toggle()"
       ></app-toolbar1>
-      <!-- <app-toolbar2
-        *ngIf="settings.toolbar == 2"
-        (onMenuIconClick)="sidenav.toggle()"
-      ></app-toolbar2> -->
     </header>
 
     <main [class.content-offset-to-top]="settings.contentOffsetToTop">

@@ -15,7 +15,6 @@ export const routes: Routes = [
     path: 'dashboard',
     component: PagesComponent,
     children: [
-      //{ path: '', redirectTo: '/landing', pathMatch: 'full' },
       {
         path: '',
         loadChildren: () =>
@@ -39,6 +38,20 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'projects',
+        loadChildren: () =>
+          import('./pages/projects/projects.module').then(
+            (m) => m.ProjectsModule
+          ),
+      },
+      {
+        path: 'listings',
+        loadChildren: () =>
+          import('./pages/listings/listings.module').then(
+            (m) => m.ListingsModule
+          ),
+      },
+      {
         path: 'agents',
         loadChildren: () =>
           import('./pages/agents/agents.module').then((m) => m.AgentsModule),
@@ -57,14 +70,6 @@ export const routes: Routes = [
         path: 'faq',
         loadChildren: () =>
           import('./pages/faq/faq.module').then((m) => m.FaqModule),
-      },
-      // { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule) },
-      {
-        path: 'register',
-        loadChildren: () =>
-          import('./pages/register/register.module').then(
-            (m) => m.RegisterModule
-          ),
       },
       {
         path: 'terms-conditions',
@@ -91,11 +96,6 @@ export const routes: Routes = [
     path: 'login',
     loadChildren: () =>
       import('./pages/login/login.module').then((m) => m.LoginModule),
-  },
-  {
-    path: 'register',
-    loadChildren: () =>
-      import('./pages/register/register.module').then((m) => m.RegisterModule),
   },
   {
     path: 'landing',
