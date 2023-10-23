@@ -9,7 +9,7 @@
 
 <div class="px-3">
   <div class="theme-container">
-    <mat-card class="main-content-header">
+    <!-- <mat-card class="main-content-header">
       <app-properties-search
         [variant]="settings.searchPanelVariant"
         [searchOnBtnClick]="settings.searchOnBtnClick"
@@ -18,7 +18,7 @@
         (onSearchClick)="searchClicked()"
       >
       </app-properties-search>
-    </mat-card>
+    </mat-card> -->
     <mat-sidenav-container class="all-properties mt-3">
       <mat-sidenav
         #sidenav
@@ -87,7 +87,7 @@
           </div>
 
           <div
-            *ngFor="let property of properties"
+            *ngFor="let property of properties; let i = index"
             [fxFlex]="viewType == 'grid' ? viewCol : 100"
             class="item"
           >
@@ -96,6 +96,7 @@
               [viewType]="viewType"
               [viewColChanged]="viewCol"
               [fullWidthPage]="false"
+              [nextRoutePath]="'/dashboard/listings/1'"
             ></app-property-item>
           </div>
 
@@ -139,9 +140,9 @@
   </div>
 </div>
 
-<app-clients></app-clients>
+<!-- <app-clients></app-clients> -->
 
-<app-get-in-touch></app-get-in-touch>
+<!-- <app-get-in-touch></app-get-in-touch> -->
 
 /////
 
@@ -157,39 +158,6 @@
       <mat-sidenav-content ngClass.gt-sm="distance"> 
 
         <div fxLayout="row wrap" class="properties-wrapper mt-0">
-           
-            <div fxFlex="100" fxLayoutAlign="start start" class="p-2"> 
-                <mat-chip-listbox [ngClass]="(settings.rtl) ? 'ml-2' : 'mr-2'">
-                    <mat-chip-option highlighted selectable="false" disableRipple="true" color="warn" class="uppercase ws-nowrap">
-                    </mat-chip-option> 
-                </mat-chip-listbox>
-                <app-properties-search-results-filters 
-                    [searchFields]="searchFields" 
-                    (onRemoveSearchField)="removeSearchField($event)">
-                </app-properties-search-results-filters>                 
-            </div>
-
-            <div *ngFor="let property of properties" [fxFlex]="(viewType=='grid') ? viewCol : 100"  class="item">                         
-                <app-property-item [property]="property" [viewType]="viewType" [viewColChanged]="viewCol" [fullWidthPage]="false"></app-property-item>
-            </div>
-
-            <div *ngIf="properties?.length == 0" fxFlex="100" fxLayoutAlign="center center" [style.min-height.px]="200">                
-                <mat-spinner *ngIf="!message"></mat-spinner>
-                <mat-chip-listbox *ngIf="message">
-                    <mat-chip-option highlighted selectable="false" disableRipple="true" color="warn" class="uppercase ws-nowrap">
-                        {{message}}
-                    </mat-chip-option> 
-                </mat-chip-listbox> 
-            </div>            
-
-            <div *ngIf="properties?.length > 0" fxFlex="100" fxLayoutAlign="center center" class="p-2">
-                <mat-paginator [length]="pagination?.total"
-                              [pageSize]="pagination?.perPage"
-                              (page)="onPageChange($event)"
-                              class="w-100 mat-elevation-z1">
-                </mat-paginator>
-            </div>          
-         
         </div>
 
         

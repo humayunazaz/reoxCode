@@ -5,8 +5,14 @@ import {
   PLATFORM_ID,
   ViewChild,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -14,17 +20,21 @@ import {
   filter,
   map,
 } from 'rxjs/operators';
-import { Settings, AppSettings } from '../../app.settings';
-import { AppService } from '../../app.service';
-import { Property, Pagination } from '../../app.models';
+import { AppService } from 'src/app/app.service';
+import { Settings, AppSettings } from 'src/app/app.settings';
+import { Property, Pagination } from 'src/app/app.models';
+import { emailValidator } from 'src/app/theme/utils/app-validators';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
-  selector: 'app-properties',
-  templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.scss'],
+  selector: 'app-agent',
+  templateUrl: './listing.component.html',
+  styleUrls: ['./listing.component.scss'],
 })
-export class ProjectsComponent implements OnInit {
+export class ListingComponent implements OnInit {
+  private sub: any;
+  public agent: any;
+  public agentId: any;
   @ViewChild('sidenav') sidenav: any;
   public sidenavOpen: boolean = true;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -38,12 +48,15 @@ export class ProjectsComponent implements OnInit {
   public pagination: Pagination = new Pagination(1, this.count, null, 2, 0, 0);
   public message: string | null;
   public watcher: Subscription;
-
   public settings: Settings;
+  public contactForm: UntypedFormGroup;
+
   constructor(
     public appSettings: AppSettings,
     public appService: AppService,
+    private activatedRoute: ActivatedRoute,
     public mediaObserver: MediaObserver,
+    public fb: UntypedFormBuilder,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.settings = this.appSettings.settings;
@@ -71,26 +84,46 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getProperties();
+    this.sub = this.activatedRoute.params.subscribe((params) => {
+      this.agentId = params['id'];
+      this.getAgentById(params['id']);
+      this.getProperties();
+    });
+
+    this.contactForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', Validators.compose([Validators.required, emailValidator])],
+      phone: ['', Validators.required],
+      message: ['', Validators.required],
+    });
   }
 
   ngOnDestroy() {
+    this.sub.unsubscribe();
     this.watcher.unsubscribe();
   }
 
+  public getAgentById(id) {
+    this.agent = this.appService
+      .getAgents()
+      .filter((agent) => agent.id == id)[0];
+  }
+
   public getProperties() {
-    this.appService.getProperties().subscribe((data) => {
-      let result = this.filterData(data);
-      if (result.data.length == 0) {
-        this.properties.length = 0;
-        this.pagination = new Pagination(1, this.count, null, 2, 0, 0);
-        this.message = 'No Results Found';
-      } else {
-        this.properties = result.data;
-        this.pagination = result.pagination;
-        this.message = null;
-      }
-    });
+    this.appService
+      .getPropertiesByAgentId(this.agentId)
+      .subscribe((data: any) => {
+        let result = this.filterData(data);
+        if (result.data.length == 0) {
+          this.properties.length = 0;
+          this.pagination = new Pagination(1, this.count, null, 2, 0, 0);
+          this.message = 'No Results Found';
+        } else {
+          this.properties = result.data;
+          this.pagination = result.pagination;
+          this.message = null;
+        }
+      });
   }
 
   public resetPagination() {
@@ -169,6 +202,12 @@ export class ProjectsComponent implements OnInit {
     this.getProperties();
     if (isPlatformBrowser(this.platformId)) {
       window.scrollTo(0, 0);
+    }
+  }
+
+  public onContactFormSubmit(values: Object) {
+    if (this.contactForm.valid) {
+      console.log(values);
     }
   }
 }

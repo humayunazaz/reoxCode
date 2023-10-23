@@ -6,14 +6,15 @@ import { SharedModule } from '../../shared/shared.module';
 
 import { PropertyComponent } from './property/property.component';
 import { ListingsComponent } from './listings.component';
+import { ListingComponent } from './listing/listing.component';
 
 export const routes: Routes = [
   { path: '', component: ListingsComponent, pathMatch: 'full' },
-  { path: ':id', component: PropertyComponent },
+  { path: ':id', component: ListingComponent },
 ];
 
 @NgModule({
-  declarations: [PropertyComponent, ListingsComponent],
+  declarations: [PropertyComponent, ListingsComponent, ListingComponent],
   exports: [ListingsComponent],
   imports: [
     CommonModule,

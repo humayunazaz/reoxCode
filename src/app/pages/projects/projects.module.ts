@@ -6,14 +6,15 @@ import { SharedModule } from '../../shared/shared.module';
 
 import { PropertyComponent } from './property/property.component';
 import { ProjectsComponent } from './projects.component';
+import { ProjectComponent } from './project/project.component';
 
 export const routes: Routes = [
   { path: '', component: ProjectsComponent, pathMatch: 'full' },
-  { path: ':id', component: PropertyComponent },
+  { path: ':id', component: ProjectComponent },
 ];
 
 @NgModule({
-  declarations: [PropertyComponent, ProjectsComponent],
+  declarations: [PropertyComponent, ProjectsComponent, ProjectComponent],
   exports: [ProjectsComponent],
   imports: [
     CommonModule,
