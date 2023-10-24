@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
 
   public onLoginFormSubmit(values: Object): void {
     if (this.loginForm.valid) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/dashboard/listings']);
     }
   }
 
